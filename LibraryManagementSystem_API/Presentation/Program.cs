@@ -1,6 +1,7 @@
 using DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Presentation.Extensions;
+using Presentation.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +17,10 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddRepositories();
 builder.Services.AddServices();
 
+builder.Services.AddJwtAuthentication(builder.Configuration);
+builder.Services.AddSwaggerWithJwtAuth();
+
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -24,8 +29,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseMiddleware<ExceptionMiddleware>();
+
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

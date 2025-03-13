@@ -10,5 +10,6 @@ namespace DataAccess.Abstract
         void Update(T entity);
         void Delete(T entity);
         Task DeleteByIdAsync(int id);
+        Task<bool> SaveChangesAsync();
     }
 }

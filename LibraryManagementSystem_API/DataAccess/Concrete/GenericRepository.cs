@@ -45,5 +45,10 @@ namespace DataAccess.Concrete
                 _context.Set<T>().Remove(entity);
             }
         }
+
+        public async Task<bool> SaveChangesAsync()
+        {
+            return await _context.SaveChangesAsync() > 0;
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Entities.Concrete;
+﻿using DataAccess.Seeds;
+using Entities.Concrete;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess
@@ -29,6 +30,8 @@ namespace DataAccess
             modelBuilder.Entity<Fine>()
                 .Property(f => f.FineAmount)
                 .HasPrecision(18, 2);
+
+            modelBuilder.ApplyConfiguration(new UserSeed());
 
             base.OnModelCreating(modelBuilder);
         }

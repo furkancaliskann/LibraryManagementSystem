@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class mig : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -61,7 +63,7 @@ namespace DataAccess.Migrations
                     Surname = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     PasswordHash = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
-                    Role = table.Column<int>(type: "int", nullable: false),
+                    Role = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
@@ -229,6 +231,16 @@ namespace DataAccess.Migrations
                         principalTable: "Loans",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "Address", "CreatedAt", "Email", "Name", "PasswordHash", "Phone", "Role", "Surname" },
+                values: new object[,]
+                {
+                    { 1, null, new DateTime(2025, 3, 13, 11, 34, 18, 271, DateTimeKind.Utc).AddTicks(3991), "admin@example.com", "Admin", new byte[] { 166, 101, 164, 89, 32, 66, 47, 157, 65, 126, 72, 103, 239, 220, 79, 184, 160, 74, 31, 63, 255, 31, 160, 126, 153, 142, 134, 247, 247, 162, 122, 227 }, "+90 000 000 0000", "Admin", "Admin" },
+                    { 2, null, new DateTime(2025, 3, 13, 11, 34, 18, 271, DateTimeKind.Utc).AddTicks(4000), "employee@example.com", "Employee", new byte[] { 166, 101, 164, 89, 32, 66, 47, 157, 65, 126, 72, 103, 239, 220, 79, 184, 160, 74, 31, 63, 255, 31, 160, 126, 153, 142, 134, 247, 247, 162, 122, 227 }, "+90 111 111 1111", "Employee", "Employee" },
+                    { 3, "Selçuklu/KONYA", new DateTime(2025, 3, 13, 11, 34, 18, 271, DateTimeKind.Utc).AddTicks(4001), "furkancaliskan2022@gmail.com", "Furkan", new byte[] { 166, 101, 164, 89, 32, 66, 47, 157, 65, 126, 72, 103, 239, 220, 79, 184, 160, 74, 31, 63, 255, 31, 160, 126, 153, 142, 134, 247, 247, 162, 122, 227 }, "+90 542 523 4042", "Member", "Çalışkan" }
                 });
 
             migrationBuilder.CreateIndex(

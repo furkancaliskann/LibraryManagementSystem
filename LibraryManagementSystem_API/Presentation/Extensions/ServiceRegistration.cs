@@ -33,6 +33,10 @@ namespace Presentation.Extensions
             services.AddScoped<IPublisherService, PublisherService>();
             services.AddScoped<IReservationService, ReservationService>();
             services.AddScoped<IUserService, UserService>();
+
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IPasswordHasher, PasswordHasherService>();
+            services.AddScoped<ITokenService, TokenService>();
         }
     }
 }

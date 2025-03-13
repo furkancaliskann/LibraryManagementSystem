@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250311122428_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250313113418_mig")]
+    partial class mig
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -296,8 +296,9 @@ namespace DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Role")
-                        .HasColumnType("int");
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Surname")
                         .IsRequired()
@@ -309,6 +310,42 @@ namespace DataAccess.Migrations
                         .IsUnique();
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2025, 3, 13, 11, 34, 18, 271, DateTimeKind.Utc).AddTicks(3991),
+                            Email = "admin@example.com",
+                            Name = "Admin",
+                            PasswordHash = new byte[] { 166, 101, 164, 89, 32, 66, 47, 157, 65, 126, 72, 103, 239, 220, 79, 184, 160, 74, 31, 63, 255, 31, 160, 126, 153, 142, 134, 247, 247, 162, 122, 227 },
+                            Phone = "+90 000 000 0000",
+                            Role = "Admin",
+                            Surname = "Admin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateTime(2025, 3, 13, 11, 34, 18, 271, DateTimeKind.Utc).AddTicks(4000),
+                            Email = "employee@example.com",
+                            Name = "Employee",
+                            PasswordHash = new byte[] { 166, 101, 164, 89, 32, 66, 47, 157, 65, 126, 72, 103, 239, 220, 79, 184, 160, 74, 31, 63, 255, 31, 160, 126, 153, 142, 134, 247, 247, 162, 122, 227 },
+                            Phone = "+90 111 111 1111",
+                            Role = "Employee",
+                            Surname = "Employee"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Address = "Selçuklu/KONYA",
+                            CreatedAt = new DateTime(2025, 3, 13, 11, 34, 18, 271, DateTimeKind.Utc).AddTicks(4001),
+                            Email = "furkancaliskan2022@gmail.com",
+                            Name = "Furkan",
+                            PasswordHash = new byte[] { 166, 101, 164, 89, 32, 66, 47, 157, 65, 126, 72, 103, 239, 220, 79, 184, 160, 74, 31, 63, 255, 31, 160, 126, 153, 142, 134, 247, 247, 162, 122, 227 },
+                            Phone = "+90 542 523 4042",
+                            Role = "Member",
+                            Surname = "Çalışkan"
+                        });
                 });
 
             modelBuilder.Entity("Entities.Concrete.Book", b =>
