@@ -1,10 +1,7 @@
-﻿using Entities.Abstract;
-
-namespace Entities.Concrete
+﻿namespace Entities.Concrete
 {
-    public class BookCopy : IEntity
+    public class BookCopy : BaseEntity
     {
-        public int Id { get; set; }
         public int BookId { get; set; }
         public required Book Book { get; set; }
         public required string CopyNumber { get; set; }

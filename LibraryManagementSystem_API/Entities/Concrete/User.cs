@@ -1,10 +1,7 @@
-﻿using Entities.Abstract;
-
-namespace Entities.Concrete
+﻿namespace Entities.Concrete
 {
-    public class User : IEntity
+    public class User : BaseEntity
     {
-        public int Id { get; set; }
         public required string Name { get; set; }
         public required string Surname { get; set; }
         public required string Email { get; set; }

@@ -1,10 +1,7 @@
-﻿using Entities.Abstract;
-
-namespace Entities.Concrete
+﻿namespace Entities.Concrete
 {
-    public class Category : IEntity
+    public class Category : BaseEntity
     {
-        public int Id { get; set; }
         public required string Name { get; set; }
     }
 }

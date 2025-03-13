@@ -1,10 +1,7 @@
-﻿using Entities.Abstract;
-
-namespace Entities.Concrete
+﻿namespace Entities.Concrete
 {
-    public class Fine : IEntity
+    public class Fine : BaseEntity
     {
-        public int Id { get; set; }
         public int LoanId { get; set; }
         public required Loan Loan { get; set; }
         public decimal? FineAmount { get; set; }

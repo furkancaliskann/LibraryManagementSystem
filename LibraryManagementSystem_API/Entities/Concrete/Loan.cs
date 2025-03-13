@@ -1,10 +1,7 @@
-﻿using Entities.Abstract;
-
-namespace Entities.Concrete
+﻿namespace Entities.Concrete
 {
-    public class Loan : IEntity
+    public class Loan : BaseEntity
     {
-        public int Id { get; set; }
         public int UserId { get; set; }
         public required User User { get; set; }
         public int BookCopyId { get; set; }

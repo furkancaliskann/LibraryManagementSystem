@@ -1,10 +1,7 @@
-﻿using Entities.Abstract;
-
-namespace Entities.Concrete
+﻿namespace Entities.Concrete
 {
-    public class Book : IEntity
+    public class Book : BaseEntity
     {
-        public int Id { get; set; }
         public string? Title { get; set; }
         public int AuthorId { get; set; }
         public required Author Author { get; set; }
