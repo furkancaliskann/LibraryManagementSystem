@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250313113418_mig")]
+    [Migration("20250314095547_mig")]
     partial class mig
     {
         /// <inheritdoc />
@@ -210,7 +210,7 @@ namespace DataAccess.Migrations
                     b.Property<DateTime>("Timestamp")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -315,7 +315,7 @@ namespace DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2025, 3, 13, 11, 34, 18, 271, DateTimeKind.Utc).AddTicks(3991),
+                            CreatedAt = new DateTime(2025, 3, 14, 9, 55, 47, 484, DateTimeKind.Utc).AddTicks(5865),
                             Email = "admin@example.com",
                             Name = "Admin",
                             PasswordHash = new byte[] { 166, 101, 164, 89, 32, 66, 47, 157, 65, 126, 72, 103, 239, 220, 79, 184, 160, 74, 31, 63, 255, 31, 160, 126, 153, 142, 134, 247, 247, 162, 122, 227 },
@@ -326,7 +326,7 @@ namespace DataAccess.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2025, 3, 13, 11, 34, 18, 271, DateTimeKind.Utc).AddTicks(4000),
+                            CreatedAt = new DateTime(2025, 3, 14, 9, 55, 47, 484, DateTimeKind.Utc).AddTicks(5876),
                             Email = "employee@example.com",
                             Name = "Employee",
                             PasswordHash = new byte[] { 166, 101, 164, 89, 32, 66, 47, 157, 65, 126, 72, 103, 239, 220, 79, 184, 160, 74, 31, 63, 255, 31, 160, 126, 153, 142, 134, 247, 247, 162, 122, 227 },
@@ -338,7 +338,7 @@ namespace DataAccess.Migrations
                         {
                             Id = 3,
                             Address = "Selçuklu/KONYA",
-                            CreatedAt = new DateTime(2025, 3, 13, 11, 34, 18, 271, DateTimeKind.Utc).AddTicks(4001),
+                            CreatedAt = new DateTime(2025, 3, 14, 9, 55, 47, 484, DateTimeKind.Utc).AddTicks(5878),
                             Email = "furkancaliskan2022@gmail.com",
                             Name = "Furkan",
                             PasswordHash = new byte[] { 166, 101, 164, 89, 32, 66, 47, 157, 65, 126, 72, 103, 239, 220, 79, 184, 160, 74, 31, 63, 255, 31, 160, 126, 153, 142, 134, 247, 247, 162, 122, 227 },
@@ -420,9 +420,7 @@ namespace DataAccess.Migrations
                 {
                     b.HasOne("Entities.Concrete.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });

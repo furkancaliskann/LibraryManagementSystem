@@ -16,6 +16,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddRepositories();
 builder.Services.AddServices();
+builder.Services.AddMappings();
+builder.Services.AddValidators();
 
 builder.Services.AddJwtAuthentication(builder.Configuration);
 builder.Services.AddSwaggerWithJwtAuth();

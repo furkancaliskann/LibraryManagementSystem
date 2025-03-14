@@ -7,7 +7,7 @@ using Presentation.Helpers;
 
 namespace Presentation.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/users")]
     [ApiController] 
     public class UserController : BaseController
@@ -22,7 +22,7 @@ namespace Presentation.Controllers
         [HttpGet]
         public async Task<IActionResult> GetUsersAsync()
         {
-            var result = await _userService.GetUsersAsync();
+            var result = await _userService.GetAllAsync();
             return HandleResult(result);
         }
 
@@ -30,7 +30,15 @@ namespace Presentation.Controllers
         [Route("{id:int}")]
         public async Task<IActionResult> GetUserByIdAsync([FromRoute] int id)
         {
-            var result = await _userService.GetUserByIdAsync(id);
+            var result = await _userService.GetByIdAsync(id);
+            return HandleResult(result);
+        }
+
+        [HttpPut]
+        [Route("{id:int}")]
+        public async Task<IActionResult> UpdateUserAsync([FromRoute] int id, [FromBody] UpdateUserDto updateUserDto)
+        {
+            var result = await _userService.UpdateAsync(id, updateUserDto);
             return HandleResult(result);
         }
     }

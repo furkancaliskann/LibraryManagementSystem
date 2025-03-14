@@ -1,4 +1,5 @@
 ﻿using Business;
+using Business.Abstract;
 using System.Net;
 using System.Text.Json;
 
@@ -8,11 +9,13 @@ namespace Presentation.Middlewares
     {
         private readonly RequestDelegate _next;
         private readonly ILogger<ExceptionMiddleware> _logger;
+        private readonly IServiceScopeFactory _scopeFactory;
 
-        public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
+        public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger, IServiceScopeFactory scopeFactory)
         {
             _next = next;
             _logger = logger;
+            _scopeFactory = scopeFactory;
         }
 
         public async Task InvokeAsync(HttpContext context)
@@ -24,6 +27,13 @@ namespace Presentation.Middlewares
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An unexpected error occurred.");
+
+                using (var scope = _scopeFactory.CreateScope())
+                {
+                    var _logService = scope.ServiceProvider.GetRequiredService<ILogService>();
+                    await _logService.AddAsync(null, ex.ToString());
+                }
+                    
                 await HandleExceptionAsync(context, ex);
             }
         }

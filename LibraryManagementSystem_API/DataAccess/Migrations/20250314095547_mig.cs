@@ -116,7 +116,7 @@ namespace DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: true),
                     Action = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Timestamp = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -127,8 +127,7 @@ namespace DataAccess.Migrations
                         name: "FK_Logs_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -238,9 +237,9 @@ namespace DataAccess.Migrations
                 columns: new[] { "Id", "Address", "CreatedAt", "Email", "Name", "PasswordHash", "Phone", "Role", "Surname" },
                 values: new object[,]
                 {
-                    { 1, null, new DateTime(2025, 3, 13, 11, 34, 18, 271, DateTimeKind.Utc).AddTicks(3991), "admin@example.com", "Admin", new byte[] { 166, 101, 164, 89, 32, 66, 47, 157, 65, 126, 72, 103, 239, 220, 79, 184, 160, 74, 31, 63, 255, 31, 160, 126, 153, 142, 134, 247, 247, 162, 122, 227 }, "+90 000 000 0000", "Admin", "Admin" },
-                    { 2, null, new DateTime(2025, 3, 13, 11, 34, 18, 271, DateTimeKind.Utc).AddTicks(4000), "employee@example.com", "Employee", new byte[] { 166, 101, 164, 89, 32, 66, 47, 157, 65, 126, 72, 103, 239, 220, 79, 184, 160, 74, 31, 63, 255, 31, 160, 126, 153, 142, 134, 247, 247, 162, 122, 227 }, "+90 111 111 1111", "Employee", "Employee" },
-                    { 3, "Selçuklu/KONYA", new DateTime(2025, 3, 13, 11, 34, 18, 271, DateTimeKind.Utc).AddTicks(4001), "furkancaliskan2022@gmail.com", "Furkan", new byte[] { 166, 101, 164, 89, 32, 66, 47, 157, 65, 126, 72, 103, 239, 220, 79, 184, 160, 74, 31, 63, 255, 31, 160, 126, 153, 142, 134, 247, 247, 162, 122, 227 }, "+90 542 523 4042", "Member", "Çalışkan" }
+                    { 1, null, new DateTime(2025, 3, 14, 9, 55, 47, 484, DateTimeKind.Utc).AddTicks(5865), "admin@example.com", "Admin", new byte[] { 166, 101, 164, 89, 32, 66, 47, 157, 65, 126, 72, 103, 239, 220, 79, 184, 160, 74, 31, 63, 255, 31, 160, 126, 153, 142, 134, 247, 247, 162, 122, 227 }, "+90 000 000 0000", "Admin", "Admin" },
+                    { 2, null, new DateTime(2025, 3, 14, 9, 55, 47, 484, DateTimeKind.Utc).AddTicks(5876), "employee@example.com", "Employee", new byte[] { 166, 101, 164, 89, 32, 66, 47, 157, 65, 126, 72, 103, 239, 220, 79, 184, 160, 74, 31, 63, 255, 31, 160, 126, 153, 142, 134, 247, 247, 162, 122, 227 }, "+90 111 111 1111", "Employee", "Employee" },
+                    { 3, "Selçuklu/KONYA", new DateTime(2025, 3, 14, 9, 55, 47, 484, DateTimeKind.Utc).AddTicks(5878), "furkancaliskan2022@gmail.com", "Furkan", new byte[] { 166, 101, 164, 89, 32, 66, 47, 157, 65, 126, 72, 103, 239, 220, 79, 184, 160, 74, 31, 63, 255, 31, 160, 126, 153, 142, 134, 247, 247, 162, 122, 227 }, "+90 542 523 4042", "Member", "Çalışkan" }
                 });
 
             migrationBuilder.CreateIndex(

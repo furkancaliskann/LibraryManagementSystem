@@ -1,7 +1,10 @@
 ﻿using Business.Abstract;
 using Business.Concrete;
+using Business.Mappings;
+using Business.Validators;
 using DataAccess.Abstract;
 using DataAccess.Concrete;
+using FluentValidation;
 
 namespace Presentation.Extensions
 {
@@ -37,6 +40,18 @@ namespace Presentation.Extensions
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IPasswordHasher, PasswordHasherService>();
             services.AddScoped<ITokenService, TokenService>();
+        }
+
+        public static void AddMappings(this IServiceCollection services)
+        {
+            services.AddAutoMapper(typeof(MappingProfile));
+        }
+
+        public static void AddValidators(this IServiceCollection services)
+        {
+            // Registers all validators in the assembly where RegisterDtoValidator is located
+            services.AddValidatorsFromAssemblyContaining<RegisterDtoValidator>();
+            // No need to explicitly add LoginDtoValidator if it's in the same assembly
         }
     }
 }

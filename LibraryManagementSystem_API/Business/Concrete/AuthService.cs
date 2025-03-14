@@ -1,65 +1,80 @@
-﻿using Business.Abstract;
+﻿using AutoMapper;
+using Business.Abstract;
 using Business.Dtos;
-using DataAccess.Abstract;
 using Entities.Concrete;
+using FluentValidation;
 
 namespace Business.Concrete
 {
     public class AuthService : IAuthService
     {
         private readonly ITokenService _tokenService;
-        private readonly IUserRepository _userRepository;
+        private readonly IUserService _userService;
         private readonly IPasswordHasher _passwordHasher;
+        private readonly IMapper _mapper;
+        private readonly IValidator<LoginDto> _loginDtoValidator;
+        private readonly IValidator<RegisterDto> _registerDtoValidator;
+        private readonly ILogService _logService;
 
-        public AuthService(ITokenService tokenService, IUserRepository userRepository, IPasswordHasher passwordHasher)
+        public AuthService(ITokenService tokenService, IUserService userService, IPasswordHasher passwordHasher, IMapper mapper,
+            IValidator<LoginDto> loginDtoValidator, IValidator<RegisterDto> registerDtoValidator, ILogService logService)
         {
             _tokenService = tokenService;
-            _userRepository = userRepository;
+            _userService = userService;
             _passwordHasher = passwordHasher;
+            _mapper = mapper;
+            _loginDtoValidator = loginDtoValidator;
+            _registerDtoValidator = registerDtoValidator;
+            _logService = logService;
         }
 
         public async Task<Result<TokenDto>> LoginAsync(LoginDto loginDto)
         {
-            var user = await _userRepository.GetByEmailAsync(loginDto.Email);
-            if (user == null || !_passwordHasher.VerifyPassword(loginDto.Password, user.PasswordHash))
+            var validationResult = _loginDtoValidator.Validate(loginDto);
+
+            if (!validationResult.IsValid)
+                return Result<TokenDto>.FailedResult(validationResult.ToString(), ResultCodes.BadRequest);
+
+            var result = await _userService.GetByEmailAsync(loginDto.Email);
+
+            if(!result.IsSuccess || result.Data == null)
+                return Result<TokenDto>.FailedResult(result.ErrorMessage, result.StatusCode);
+
+            if (!_passwordHasher.VerifyPassword(loginDto.Password, result.Data.PasswordHash))
                 return Result<TokenDto>.FailedResult("Invalid credentials", ResultCodes.BadRequest);
 
-            var token = _tokenService.GenerateToken(user);
+            var token = _tokenService.GenerateToken(result.Data);
+
+            await _logService.AddAsync(result.Data.Id, 
+                "'" + result.Data.Name + " " + result.Data.Surname + "' has successfully logged in.");
+
             return Result<TokenDto>.SuccessResultWithData(new TokenDto { Token = token });
         }
 
         public async Task<Result<TokenDto>> RegisterAsync(RegisterDto registerDto)
         {
-            if (registerDto.Email == "" || registerDto.Password == "")
-                return Result<TokenDto>.FailedResult("Email and password cannot be empty!", ResultCodes.BadRequest);
+            var validationResult = await _registerDtoValidator.ValidateAsync(registerDto);
 
-            var existingUser = await _userRepository.GetByEmailAsync(registerDto.Email);
-
-            if (existingUser != null)
-                return Result<TokenDto>.FailedResult("This email has already been registered!", ResultCodes.Conflict);
+            if (!validationResult.IsValid)
+                return Result<TokenDto>.FailedResult(validationResult.ToString(), ResultCodes.BadRequest);
 
             var hashedPassword = _passwordHasher.HashPassword(registerDto.Password);
 
-            User user = new User
-            {
-                Name = registerDto.Name,
-                Surname = registerDto.Surname,
-                Email = registerDto.Email,
-                PasswordHash = hashedPassword,
-                Role = "Member",
-                Phone = registerDto.Phone,
-                Address = registerDto.Address,
-            };
+            var user = _mapper.Map<User>(registerDto);
+            user.PasswordHash = hashedPassword;
+            user.Role = "Member";
 
-            await _userRepository.AddAsync(user);
-            var isSaved = await _userRepository.SaveChangesAsync();
+            var result = await _userService.AddAsync(user);
 
-            if(!isSaved)
-                return Result<TokenDto>.FailedResult("An error occurred while saving user!", ResultCodes.ServerError);
+            if(!result.IsSuccess || !result.Data)
+                return Result<TokenDto>.FailedResult(result.ErrorMessage, result.StatusCode);
 
             var token = _tokenService.GenerateToken(user);
             var tokenDto = new TokenDto { Token = token };
 
+            await _logService.AddAsync(user.Id, 
+                "'" + user.Name + " " + user.Surname + "' has registered using the email address " + "'" + user.Email + "'");
+            
             return Result<TokenDto>.SuccessResultWithData(tokenDto);
         }
     }

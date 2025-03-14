@@ -31,8 +31,6 @@ namespace Presentation.Extensions
                         ClockSkew = TimeSpan.Zero
                     };
                 });
-
-            services.AddAuthorization();
         }
 
         public static void AddSwaggerWithJwtAuth(this IServiceCollection services)
