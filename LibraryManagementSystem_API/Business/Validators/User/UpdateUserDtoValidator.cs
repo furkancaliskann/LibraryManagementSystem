@@ -1,11 +1,11 @@
-﻿using Business.Dtos;
+﻿using Business.Dtos.User;
 using FluentValidation;
 
-namespace Business.Validators
+namespace Business.Validators.User
 {
-    public class RegisterDtoValidator : AbstractValidator<RegisterDto>
+    public class UpdateUserDtoValidator : AbstractValidator<UpdateUserDto>
     {
-        public RegisterDtoValidator() 
+        public UpdateUserDtoValidator()
         {
             RuleFor(x => x.Name)
                 .NotEmpty().WithMessage("Name cannot be empty!");
@@ -16,10 +16,6 @@ namespace Business.Validators
             RuleFor(x => x.Email)
                 .NotEmpty().WithMessage("Email cannot be empty!")
                 .EmailAddress().WithMessage("Invalid email format!");
-
-            RuleFor(x => x.Password)
-                .NotEmpty().WithMessage("Password cannot be empty!")
-                .MinimumLength(3).WithMessage("Password must be at least 3 characters long!");
 
             RuleFor(x => x.Phone)
                .NotEmpty().WithMessage("Phone cannot be empty!");

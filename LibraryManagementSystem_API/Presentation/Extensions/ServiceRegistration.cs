@@ -1,7 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Concrete;
 using Business.Mappings;
-using Business.Validators;
+using Business.Validators.Auth;
 using DataAccess.Abstract;
 using DataAccess.Concrete;
 using FluentValidation;

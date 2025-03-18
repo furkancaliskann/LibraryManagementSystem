@@ -42,7 +42,7 @@ namespace DataAccess.Seeds
                     PasswordHash = hashedPassword,
                     Role = "Member",
                     Phone = "+90 542 523 4042",
-                    Address = "Selçuklu/KONYA"
+                    Address = "Selçuklu/KONYA",
                 }
             );
         }

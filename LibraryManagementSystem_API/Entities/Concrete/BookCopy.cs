@@ -4,6 +4,7 @@
     {
         public int BookId { get; set; }
         public Book? Book { get; set; }
+
         public required string CopyNumber { get; set; }
         public BookCopyStatus Status { get; set; }
         public required string ShelfLocation { get; set; }

@@ -1,4 +1,4 @@
-﻿using Business.Dtos;
+﻿using Business.Dtos.Auth;
 
 namespace Business.Abstract
 {

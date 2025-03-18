@@ -1,16 +1,17 @@
 ﻿using Business.Abstract;
-using Business.Dtos;
+using Business.Dtos.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Helpers;
+using System.Security.Claims;
 
 namespace Presentation.Controllers
 {
     //[Authorize]
     [Route("api/users")]
     [ApiController] 
-    public class UserController : BaseController
+    public class UserController : CustomControllerBase
     {
         private readonly IUserService _userService;
 
@@ -34,11 +35,14 @@ namespace Presentation.Controllers
             return HandleResult(result);
         }
 
+        [Authorize]
         [HttpPut]
-        [Route("{id:int}")]
-        public async Task<IActionResult> UpdateUserAsync([FromRoute] int id, [FromBody] UpdateUserDto updateUserDto)
+        public async Task<IActionResult> UpdateUserAsync([FromBody] UpdateUserDto updateUserDto)
         {
-            var result = await _userService.UpdateAsync(id, updateUserDto);
+            int? loggedInUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value is string id
+         && int.TryParse(id, out var parsedId) ? parsedId : null;
+
+            var result = await _userService.UpdateAsync(loggedInUserId, updateUserDto);
             return HandleResult(result);
         }
     }

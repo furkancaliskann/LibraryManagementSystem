@@ -39,6 +39,7 @@ namespace Business
         ServerError,
         BadRequest,
         NotFound,
-        Conflict
+        Conflict,
+        Forbidden
     }
 }

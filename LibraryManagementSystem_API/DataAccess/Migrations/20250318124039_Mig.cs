@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class mig : Migration
+    public partial class Mig : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -20,7 +20,8 @@ namespace DataAccess.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Bio = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Bio = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -33,11 +34,28 @@ namespace DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Categories", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Logs",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: true),
+                    Action = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Timestamp = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Logs", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -46,7 +64,8 @@ namespace DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -66,7 +85,8 @@ namespace DataAccess.Migrations
                     Role = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -79,13 +99,14 @@ namespace DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AuthorId = table.Column<int>(type: "int", nullable: false),
                     PublisherId = table.Column<int>(type: "int", nullable: false),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
-                    ISBN = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ISBN = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     PublicationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -111,26 +132,6 @@ namespace DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Logs",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: true),
-                    Action = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Timestamp = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Logs", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Logs_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "BookCopies",
                 columns: table => new
                 {
@@ -139,7 +140,8 @@ namespace DataAccess.Migrations
                     BookId = table.Column<int>(type: "int", nullable: false),
                     CopyNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
-                    ShelfLocation = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    ShelfLocation = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -163,7 +165,8 @@ namespace DataAccess.Migrations
                     LoanDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DueDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ReturnDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Status = table.Column<int>(type: "int", nullable: false)
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -191,7 +194,8 @@ namespace DataAccess.Migrations
                     UserId = table.Column<int>(type: "int", nullable: false),
                     BookCopyId = table.Column<int>(type: "int", nullable: false),
                     ReservationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Status = table.Column<int>(type: "int", nullable: false)
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -219,7 +223,8 @@ namespace DataAccess.Migrations
                     LoanId = table.Column<int>(type: "int", nullable: false),
                     FineAmount = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: true),
                     Paid = table.Column<bool>(type: "bit", nullable: false),
-                    PaidDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    PaidDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -234,12 +239,12 @@ namespace DataAccess.Migrations
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "Address", "CreatedAt", "Email", "Name", "PasswordHash", "Phone", "Role", "Surname" },
+                columns: new[] { "Id", "Address", "CreatedAt", "Email", "IsDeleted", "Name", "PasswordHash", "Phone", "Role", "Surname" },
                 values: new object[,]
                 {
-                    { 1, null, new DateTime(2025, 3, 14, 9, 55, 47, 484, DateTimeKind.Utc).AddTicks(5865), "admin@example.com", "Admin", new byte[] { 166, 101, 164, 89, 32, 66, 47, 157, 65, 126, 72, 103, 239, 220, 79, 184, 160, 74, 31, 63, 255, 31, 160, 126, 153, 142, 134, 247, 247, 162, 122, 227 }, "+90 000 000 0000", "Admin", "Admin" },
-                    { 2, null, new DateTime(2025, 3, 14, 9, 55, 47, 484, DateTimeKind.Utc).AddTicks(5876), "employee@example.com", "Employee", new byte[] { 166, 101, 164, 89, 32, 66, 47, 157, 65, 126, 72, 103, 239, 220, 79, 184, 160, 74, 31, 63, 255, 31, 160, 126, 153, 142, 134, 247, 247, 162, 122, 227 }, "+90 111 111 1111", "Employee", "Employee" },
-                    { 3, "Selçuklu/KONYA", new DateTime(2025, 3, 14, 9, 55, 47, 484, DateTimeKind.Utc).AddTicks(5878), "furkancaliskan2022@gmail.com", "Furkan", new byte[] { 166, 101, 164, 89, 32, 66, 47, 157, 65, 126, 72, 103, 239, 220, 79, 184, 160, 74, 31, 63, 255, 31, 160, 126, 153, 142, 134, 247, 247, 162, 122, 227 }, "+90 542 523 4042", "Member", "Çalışkan" }
+                    { 1, null, new DateTime(2025, 3, 18, 12, 40, 38, 987, DateTimeKind.Utc).AddTicks(6324), "admin@example.com", false, "Admin", new byte[] { 166, 101, 164, 89, 32, 66, 47, 157, 65, 126, 72, 103, 239, 220, 79, 184, 160, 74, 31, 63, 255, 31, 160, 126, 153, 142, 134, 247, 247, 162, 122, 227 }, "+90 000 000 0000", "Admin", "Admin" },
+                    { 2, null, new DateTime(2025, 3, 18, 12, 40, 38, 987, DateTimeKind.Utc).AddTicks(6332), "employee@example.com", false, "Employee", new byte[] { 166, 101, 164, 89, 32, 66, 47, 157, 65, 126, 72, 103, 239, 220, 79, 184, 160, 74, 31, 63, 255, 31, 160, 126, 153, 142, 134, 247, 247, 162, 122, 227 }, "+90 111 111 1111", "Employee", "Employee" },
+                    { 3, "Selçuklu/KONYA", new DateTime(2025, 3, 18, 12, 40, 38, 987, DateTimeKind.Utc).AddTicks(6334), "furkancaliskan2022@gmail.com", false, "Furkan", new byte[] { 166, 101, 164, 89, 32, 66, 47, 157, 65, 126, 72, 103, 239, 220, 79, 184, 160, 74, 31, 63, 255, 31, 160, 126, 153, 142, 134, 247, 247, 162, 122, 227 }, "+90 542 523 4042", "Member", "Çalışkan" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -256,6 +261,12 @@ namespace DataAccess.Migrations
                 name: "IX_Books_CategoryId",
                 table: "Books",
                 column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Books_ISBN",
+                table: "Books",
+                column: "ISBN",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Books_PublisherId",
@@ -275,11 +286,6 @@ namespace DataAccess.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Loans_UserId",
                 table: "Loans",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Logs_UserId",
-                table: "Logs",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(

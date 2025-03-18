@@ -1,5 +1,6 @@
 ﻿using DataAccess.Abstract;
 using Entities.Concrete;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.Concrete
 {
@@ -7,6 +8,11 @@ namespace DataAccess.Concrete
     {
         public BookRepository(AppDbContext context) : base(context)
         {
+        }
+
+        public async Task<Book?> GetByTitleAsync(string title)
+        {
+            return await _context.Books.FirstOrDefaultAsync(a => a.Title == title);
         }
     }
 }

@@ -3,7 +3,6 @@
     public class Log : BaseEntity
     {
         public int? UserId { get; set; }
-        public User? User { get; set; }
         public required string Action { get; set; }
         public DateTime Timestamp { get; set; } = DateTime.UtcNow;
     }

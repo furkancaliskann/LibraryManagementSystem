@@ -1,6 +1,6 @@
-﻿namespace Business.Dtos
+﻿namespace Business.Dtos.User
 {
-    public class RegisterDto
+    public class UpdateUserDto
     {
         public required string Name { get; set; }
         public required string Surname { get; set; }

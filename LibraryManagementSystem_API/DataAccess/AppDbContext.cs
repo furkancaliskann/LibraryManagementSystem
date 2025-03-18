@@ -27,6 +27,10 @@ namespace DataAccess
                 .HasIndex(u => u.Email)
                 .IsUnique();
 
+            modelBuilder.Entity<Book>()
+                .HasIndex(b => b.ISBN)
+                .IsUnique();
+
             modelBuilder.Entity<Fine>()
                 .Property(f => f.FineAmount)
                 .HasPrecision(18, 2);

@@ -1,7 +1,7 @@
-﻿using Business.Dtos;
+﻿using Business.Dtos.Auth;
 using FluentValidation;
 
-namespace Business.Validators
+namespace Business.Validators.Auth
 {
     public class LoginDtoValidator : AbstractValidator<LoginDto>
     {

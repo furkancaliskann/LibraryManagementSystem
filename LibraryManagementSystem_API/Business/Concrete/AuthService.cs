@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Business.Abstract;
-using Business.Dtos;
+using Business.Dtos.Auth;
 using Entities.Concrete;
 using FluentValidation;
 

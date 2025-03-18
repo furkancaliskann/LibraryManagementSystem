@@ -33,6 +33,9 @@ namespace DataAccess.Migrations
                     b.Property<string>("Bio")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -61,7 +64,10 @@ namespace DataAccess.Migrations
 
                     b.Property<string>("ISBN")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("PublicationDate")
                         .HasColumnType("datetime2");
@@ -70,6 +76,7 @@ namespace DataAccess.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -77,6 +84,9 @@ namespace DataAccess.Migrations
                     b.HasIndex("AuthorId");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("ISBN")
+                        .IsUnique();
 
                     b.HasIndex("PublisherId");
 
@@ -97,6 +107,9 @@ namespace DataAccess.Migrations
                     b.Property<string>("CopyNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("ShelfLocation")
                         .IsRequired()
@@ -120,6 +133,9 @@ namespace DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -140,6 +156,9 @@ namespace DataAccess.Migrations
                     b.Property<decimal?>("FineAmount")
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<int>("LoanId")
                         .HasColumnType("int");
@@ -170,6 +189,9 @@ namespace DataAccess.Migrations
 
                     b.Property<DateTime>("DueDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("LoanDate")
                         .HasColumnType("datetime2");
@@ -204,6 +226,9 @@ namespace DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime>("Timestamp")
                         .HasColumnType("datetime2");
 
@@ -211,8 +236,6 @@ namespace DataAccess.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Logs");
                 });
@@ -224,6 +247,9 @@ namespace DataAccess.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -244,6 +270,9 @@ namespace DataAccess.Migrations
 
                     b.Property<int>("BookCopyId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("ReservationDate")
                         .HasColumnType("datetime2");
@@ -281,6 +310,9 @@ namespace DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -312,8 +344,9 @@ namespace DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2025, 3, 14, 9, 55, 47, 484, DateTimeKind.Utc).AddTicks(5865),
+                            CreatedAt = new DateTime(2025, 3, 18, 12, 40, 38, 987, DateTimeKind.Utc).AddTicks(6324),
                             Email = "admin@example.com",
+                            IsDeleted = false,
                             Name = "Admin",
                             PasswordHash = new byte[] { 166, 101, 164, 89, 32, 66, 47, 157, 65, 126, 72, 103, 239, 220, 79, 184, 160, 74, 31, 63, 255, 31, 160, 126, 153, 142, 134, 247, 247, 162, 122, 227 },
                             Phone = "+90 000 000 0000",
@@ -323,8 +356,9 @@ namespace DataAccess.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2025, 3, 14, 9, 55, 47, 484, DateTimeKind.Utc).AddTicks(5876),
+                            CreatedAt = new DateTime(2025, 3, 18, 12, 40, 38, 987, DateTimeKind.Utc).AddTicks(6332),
                             Email = "employee@example.com",
+                            IsDeleted = false,
                             Name = "Employee",
                             PasswordHash = new byte[] { 166, 101, 164, 89, 32, 66, 47, 157, 65, 126, 72, 103, 239, 220, 79, 184, 160, 74, 31, 63, 255, 31, 160, 126, 153, 142, 134, 247, 247, 162, 122, 227 },
                             Phone = "+90 111 111 1111",
@@ -335,8 +369,9 @@ namespace DataAccess.Migrations
                         {
                             Id = 3,
                             Address = "Selçuklu/KONYA",
-                            CreatedAt = new DateTime(2025, 3, 14, 9, 55, 47, 484, DateTimeKind.Utc).AddTicks(5878),
+                            CreatedAt = new DateTime(2025, 3, 18, 12, 40, 38, 987, DateTimeKind.Utc).AddTicks(6334),
                             Email = "furkancaliskan2022@gmail.com",
+                            IsDeleted = false,
                             Name = "Furkan",
                             PasswordHash = new byte[] { 166, 101, 164, 89, 32, 66, 47, 157, 65, 126, 72, 103, 239, 220, 79, 184, 160, 74, 31, 63, 255, 31, 160, 126, 153, 142, 134, 247, 247, 162, 122, 227 },
                             Phone = "+90 542 523 4042",
@@ -348,7 +383,7 @@ namespace DataAccess.Migrations
             modelBuilder.Entity("Entities.Concrete.Book", b =>
                 {
                     b.HasOne("Entities.Concrete.Author", "Author")
-                        .WithMany("Books")
+                        .WithMany()
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -375,7 +410,7 @@ namespace DataAccess.Migrations
             modelBuilder.Entity("Entities.Concrete.BookCopy", b =>
                 {
                     b.HasOne("Entities.Concrete.Book", "Book")
-                        .WithMany("Copies")
+                        .WithMany()
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -413,15 +448,6 @@ namespace DataAccess.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Entities.Concrete.Log", b =>
-                {
-                    b.HasOne("Entities.Concrete.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Entities.Concrete.Reservation", b =>
                 {
                     b.HasOne("Entities.Concrete.BookCopy", "BookCopy")
@@ -439,16 +465,6 @@ namespace DataAccess.Migrations
                     b.Navigation("BookCopy");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Entities.Concrete.Author", b =>
-                {
-                    b.Navigation("Books");
-                });
-
-            modelBuilder.Entity("Entities.Concrete.Book", b =>
-                {
-                    b.Navigation("Copies");
                 });
 #pragma warning restore 612, 618
         }

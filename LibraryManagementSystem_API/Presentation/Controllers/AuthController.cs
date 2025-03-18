@@ -1,5 +1,5 @@
 ﻿using Business.Abstract;
-using Business.Dtos;
+using Business.Dtos.Auth;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Helpers;
@@ -8,7 +8,7 @@ namespace Presentation.Controllers
 {
     [Route("api/auth")]
     [ApiController]
-    public class AuthController : BaseController
+    public class AuthController : CustomControllerBase
     {
         private readonly IAuthService _authService;
         public AuthController(IAuthService authService) 

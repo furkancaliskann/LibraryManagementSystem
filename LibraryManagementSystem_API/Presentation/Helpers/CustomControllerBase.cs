@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.Helpers
 {
-    public class BaseController : ControllerBase
+    public class CustomControllerBase : ControllerBase
     {
         public IActionResult HandleResult<T>(Result<T> result)
         {
@@ -17,6 +17,7 @@ namespace Presentation.Helpers
                 case ResultCodes.BadRequest: return BadRequest(result);
                 case ResultCodes.NotFound: return NotFound(result);
                 case ResultCodes.Conflict: return Conflict(result);
+                case ResultCodes.Forbidden: return Forbid();
 
                 default: return StatusCode(500);
             }

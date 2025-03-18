@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Business.Abstract;
-using Business.Dtos;
+using Business.Dtos.User;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using FluentValidation;
@@ -65,14 +65,17 @@ namespace Business.Concrete
             return Result<bool>.SuccessResultWithData(true);
         }
 
-        public async Task<Result<bool>> UpdateAsync(int id, UpdateUserDto updateUserDto)
+        public async Task<Result<bool>> UpdateAsync(int? loggedUserId, UpdateUserDto updateUserDto)
         {
+            if (loggedUserId == null)
+                return Result<bool>.FailedResult("Unauthorized action!", ResultCodes.Forbidden);
+
             var validatorResult = _updateUserDtoValidator.Validate(updateUserDto);
 
             if (!validatorResult.IsValid)
                 return Result<bool>.FailedResult(validatorResult.ToString(), ResultCodes.BadRequest);
 
-            var existingUser = await _userRepository.GetByIdAsync(id);
+            var existingUser = await _userRepository.GetByIdAsync(loggedUserId.Value);
 
             if (existingUser == null)
                 return Result<bool>.FailedResult("User not found!", ResultCodes.NotFound);
