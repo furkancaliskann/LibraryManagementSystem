@@ -17,7 +17,7 @@ namespace Presentation.Controllers
         }
 
         [HttpPost]
-        [Route("/login")]
+        [Route("login")]
         public async Task<IActionResult> LoginAsync(LoginDto loginDto)
         {
             var result = await _authService.LoginAsync(loginDto);
@@ -25,7 +25,7 @@ namespace Presentation.Controllers
         }
 
         [HttpPost]
-        [Route("/register")]
+        [Route("register")]
         public async Task<IActionResult> RegisterAsync(RegisterDto registerDto)
         {
             var result = await _authService.RegisterAsync(registerDto);

@@ -22,6 +22,7 @@ namespace DataAccess.Seeds
                     PasswordHash = hashedPassword,
                     Role = "Admin",
                     Phone = "+90 000 000 0000",
+                    IsDeleted = false,
                 },
                 new User
                 {
@@ -32,6 +33,7 @@ namespace DataAccess.Seeds
                     PasswordHash = hashedPassword,
                     Role = "Employee",
                     Phone = "+90 111 111 1111",
+                    IsDeleted = false,
                 },
                 new User
                 {
@@ -43,6 +45,7 @@ namespace DataAccess.Seeds
                     Role = "Member",
                     Phone = "+90 542 523 4042",
                     Address = "Selçuklu/KONYA",
+                    IsDeleted = false,
                 }
             );
         }

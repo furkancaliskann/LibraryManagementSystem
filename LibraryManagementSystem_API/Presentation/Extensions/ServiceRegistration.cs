@@ -21,6 +21,7 @@ namespace Presentation.Extensions
             services.AddScoped<ILogRepository, LogRepository>();
             services.AddScoped<IPublisherRepository, PublisherRepository>();
             services.AddScoped<IReservationRepository, ReservationRepository>();
+            services.AddScoped<IShelfRepository, ShelfRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
         }
 
@@ -35,6 +36,7 @@ namespace Presentation.Extensions
             services.AddScoped<ILogService, LogService>();
             services.AddScoped<IPublisherService, PublisherService>();
             services.AddScoped<IReservationService, ReservationService>();
+            services.AddScoped<IShelfService, ShelfService>();
             services.AddScoped<IUserService, UserService>();
 
             services.AddScoped<IAuthService, AuthService>();

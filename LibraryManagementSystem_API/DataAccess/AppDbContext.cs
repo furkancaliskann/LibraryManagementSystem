@@ -1,6 +1,7 @@
 ﻿using DataAccess.Seeds;
 using Entities.Concrete;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace DataAccess
 {
@@ -19,6 +20,7 @@ namespace DataAccess
         public DbSet<Log> Logs { get; set; }
         public DbSet<Publisher> Publishers { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
+        public DbSet<Shelf> Shelves { get; set; }
         public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -35,7 +37,7 @@ namespace DataAccess
                 .Property(f => f.FineAmount)
                 .HasPrecision(18, 2);
 
-            modelBuilder.ApplyConfiguration(new UserSeed());
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
             base.OnModelCreating(modelBuilder);
         }
