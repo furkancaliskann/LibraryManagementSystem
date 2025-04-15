@@ -1,5 +1,6 @@
 ﻿using Business.Abstract;
 using Business.Dtos.Auth;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Helpers;
@@ -30,6 +31,15 @@ namespace Presentation.Controllers
         {
             var result = await _authService.RegisterAsync(registerDto);
             return HandleResult(result);
+        }
+
+        [Authorize]
+        [HttpGet("validate")]
+        public IActionResult ValidateToken()
+        {
+            TokenValidationDto tokenValidationDto = new TokenValidationDto() { IsValid = true };
+
+            return Ok(tokenValidationDto);
         }
     }
 }

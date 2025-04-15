@@ -15,7 +15,9 @@ const LoginPage = () => {
         e.preventDefault();
         try {
             const result = await login(formData);
-            console.log("Login successful:", result);
+            const { token } = result.data;
+            localStorage.setItem('token', token);
+            console.log('Token:', result.data.token);
             navigate("/home");
         } catch /*(err)*/ {
             setError("Giriş başarısız. Lütfen bilgileri kontrol edin.");
