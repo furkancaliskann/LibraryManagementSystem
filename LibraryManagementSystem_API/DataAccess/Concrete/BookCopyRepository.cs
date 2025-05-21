@@ -10,6 +10,17 @@ namespace DataAccess.Concrete
         {
         }
 
+        public override async Task<IEnumerable<BookCopy>> GetAllAsync()
+        {
+            return await _context.BookCopies
+                .Include(b => b.Book)
+                .Include(b => b.Book!.Author)
+                .Include(b => b.Book!.Publisher)
+                .Include(b => b.Book!.Category)
+                .Include(b => b.Shelf)
+                .AsNoTracking()
+                .ToListAsync();
+        }
         public Task<BookCopy?> GetWithCopyNumber(string copyNumber)
         {
             return _context.BookCopies.AsNoTracking().FirstOrDefaultAsync(x => x.CopyNumber == copyNumber);

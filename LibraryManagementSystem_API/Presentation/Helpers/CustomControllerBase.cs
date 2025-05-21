@@ -18,6 +18,7 @@ namespace Presentation.Helpers
                 case ResultCodes.NotFound: return NotFound(result);
                 case ResultCodes.Conflict: return Conflict(result);
                 case ResultCodes.Forbidden: return Forbid();
+                case ResultCodes.Unauthorized: return Unauthorized(result);
 
                 default: return StatusCode(500);
             }

@@ -1,26 +1,35 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
-function Home() {
-
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    navigate("/login");
-  }
+const Home = () => {
+  const { isLoggedIn, user, role } = useContext(AuthContext);
 
   return (
-    <>
-      <h1>Ana Sayfa</h1>
-      <button
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        onClick={handleLogout}
-      >
-        Çıkış Yap
-      </button>
-    </>
-  )
-}
+    <div
+      className="flex flex-col items-center justify-center bg-gray-50 px-4 pt-20"
+      style={{ height: "calc(100vh - 80px)" }}
+    >
+      <h1 className="text-4xl font-bold mb-4 text-center">
+        Kütüphane Yönetim Sistemi
+      </h1>
+
+      <p className="mb-4 text-lg text-center max-w-xl">
+        {isLoggedIn && user ? (
+          <>
+            Merhaba <span className="font-semibold">{user.name} {user.surname}</span>, hoş geldin!
+            <br />
+            Rolün: <span className="italic text-gray-700">{role}</span>
+          </>
+        ) : (
+          <>Giriş yapmak için sağ üstteki butonları kullanabilirsiniz.</>
+        )}
+      </p>
+
+      <p className="text-md text-center max-w-xl text-gray-600">
+        Kütüphane kitaplarını, ödünç alma ve iade işlemlerini kolayca yönetebilirsiniz.
+      </p>
+    </div>
+  );
+};
 
 export default Home;

@@ -40,6 +40,7 @@ namespace Business
         BadRequest,
         NotFound,
         Conflict,
-        Forbidden
+        Forbidden,
+        Unauthorized
     }
 }

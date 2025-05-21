@@ -1,14 +1,15 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:7175/api',
+  baseURL: 'https://localhost:7175/api',
   headers: {
     'Content-Type': 'application/json',
-  }
+  },
 });
 
 api.interceptors.request.use(
   (config) => {
+    console.log('Full URL: ', config.baseURL + config.url); // Debug: URL'yi konsolda yazdır
     const token = localStorage.getItem('token');
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;

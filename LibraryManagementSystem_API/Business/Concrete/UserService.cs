@@ -80,6 +80,9 @@ namespace Business.Concrete
             if (existingUser == null)
                 return Result<bool>.FailedResult("User not found!", ResultCodes.NotFound);
 
+            if (!_passwordHasher.VerifyPassword(updateUserDto.CurrentPassword, existingUser.PasswordHash))
+                return Result<bool>.FailedResult("Invalid password!", ResultCodes.Unauthorized);
+
             if (existingUser.Email != updateUserDto.Email)
             {
                 var emailExists = await _userRepository.GetByEmailAsync(updateUserDto.Email);
@@ -89,9 +92,9 @@ namespace Business.Concrete
 
             _mapper.Map(updateUserDto, existingUser);
 
-            if (!string.IsNullOrWhiteSpace(updateUserDto.Password))
+            if (!string.IsNullOrWhiteSpace(updateUserDto.NewPassword))
             {
-                existingUser.PasswordHash = _passwordHasher.HashPassword(updateUserDto.Password);
+                existingUser.PasswordHash = _passwordHasher.HashPassword(updateUserDto.NewPassword);
             }
 
             _userRepository.Update(existingUser);

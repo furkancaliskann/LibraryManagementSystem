@@ -1,40 +1,15 @@
-import { useEffect, useState } from "react";
+import { useContext } from "react";
 import { Navigate } from "react-router-dom";
-import { validateToken } from "../services/authService";
+import { AuthContext } from "../context/AuthContext";
 
 const PrivateRoute = ({ children }) => {
-  const [isValid, setIsValid] = useState(null);
+  const { isLoggedIn } = useContext(AuthContext);
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-
-    if (!token) {
-      setIsValid(false);
-      return;
-    }
-
-    const checkToken = async () => {
-      try {
-        const result = await validateToken();
-        setIsValid(result);
-
-        console.log("Private route result:", result);
-
-        if (!result) localStorage.removeItem("token");
-      } catch {
-        localStorage.removeItem("token");
-        setIsValid(false);
-      }
-    };
-
-    checkToken();
-  }, []);
-
-  if (isValid === null) {
+  if (isLoggedIn === null) {
     return <div className="text-center mt-10">Yükleniyor...</div>; // loading durumu
   }
 
-  return isValid ? children : <Navigate to="/login" replace />;
+  return isLoggedIn ? children : <Navigate to="/login"/>;
 };
 
 export default PrivateRoute;

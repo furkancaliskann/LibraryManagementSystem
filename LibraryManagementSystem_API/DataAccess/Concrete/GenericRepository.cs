@@ -13,17 +13,17 @@ namespace DataAccess.Concrete
             _context = context;
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync()
+        public virtual async Task<IEnumerable<T>> GetAllAsync()
         {
             return await _context.Set<T>().AsNoTracking().ToListAsync();
         }
 
-        public async Task<IEnumerable<T>> GetWithoutDeletedAsync()
+        public virtual async Task<IEnumerable<T>> GetWithoutDeletedAsync()
         {
             return await _context.Set<T>().AsNoTracking().Where(x => !x.IsDeleted).ToListAsync();
         }
 
-        public async Task<T?> GetByIdAsync(int id)
+        public virtual async Task<T?> GetByIdAsync(int id)
         {
             return await _context.Set<T>().AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
         }

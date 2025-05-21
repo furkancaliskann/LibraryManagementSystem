@@ -41,7 +41,7 @@ namespace Business.Concrete
                 return Result<TokenDto>.FailedResult(result.ErrorMessage, result.StatusCode);
 
             if (!_passwordHasher.VerifyPassword(loginDto.Password, result.Data.PasswordHash))
-                return Result<TokenDto>.FailedResult("Invalid credentials", ResultCodes.BadRequest);
+                return Result<TokenDto>.FailedResult("Invalid credentials", ResultCodes.Unauthorized);
 
             var token = _tokenService.GenerateToken(result.Data);
 

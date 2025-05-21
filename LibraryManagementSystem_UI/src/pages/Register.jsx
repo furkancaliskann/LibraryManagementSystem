@@ -24,7 +24,6 @@ const RegisterPage = () => {
     try {
       const result = await register(formData);
       setSuccess("Kayıt başarılı! Giriş yapabilirsiniz." + result.data);
-      navigate("/login")
       setError("");
     } catch (err) {
       setError("Kayıt başarısız. Bilgileri kontrol edin." + err.message);
