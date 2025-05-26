@@ -43,8 +43,9 @@ namespace Presentation.Controllers
         public async Task<IActionResult> AddReservation([FromBody] AddReservationDto addReservationDto)
         {
             string? userRole = User.FindFirst(ClaimTypes.Role)?.Value;
+            int? userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value is string idStr && int.TryParse(idStr, out var id) ? id : null;
 
-            var result = await _reservationService.AddAsync(userRole, addReservationDto);
+            var result = await _reservationService.AddAsync(userRole, userId, addReservationDto);
             return HandleResult(result);
         }
 

@@ -9,7 +9,7 @@ const api = axios.create({
 
 api.interceptors.request.use(
   (config) => {
-    console.log('Full URL: ', config.baseURL + config.url); // Debug: URL'yi konsolda yazdır
+    console.log('Full URL: ', config.baseURL + config.url);
     const token = localStorage.getItem('token');
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;

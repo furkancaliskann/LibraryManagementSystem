@@ -8,6 +8,11 @@ import Home from "./pages/Home";
 import Profile from "./pages/Profile"
 import Books from "./pages/Books";
 import BookDetail from "./pages/BookDetail";
+import Authors from "./pages/Authors";
+import Categories from "./pages/Categories";
+import Publishers from "./pages/Publishers";
+import Reservations from "./pages/Reservations";
+import NotFound from "./pages/NotFound";
 
 function App() {
   return (
@@ -22,7 +27,12 @@ function App() {
             <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
             <Route path="/books" element={<PrivateRoute><Books /></PrivateRoute>} />
             <Route path="/books/:id" element={<PrivateRoute><BookDetail /></PrivateRoute>} />
-            {/* <Route path="*" element={<NotFound />} /> */}
+            <Route path="/authors" element={<PrivateRoute><Authors /></PrivateRoute>} />
+            <Route path="/categories" element={<PrivateRoute><Categories /></PrivateRoute>} />
+            <Route path="/publishers" element={<PrivateRoute><Publishers /></PrivateRoute>} />
+            <Route path="/reservations" element={<PrivateRoute><Reservations /></PrivateRoute>} />
+
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
       </div>

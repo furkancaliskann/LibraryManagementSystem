@@ -4,6 +4,7 @@ using Business.Dtos.BookCopy;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using FluentValidation;
+using System.Diagnostics;
 
 namespace Business.Concrete
 {
@@ -79,20 +80,18 @@ namespace Business.Concrete
 
         public async Task<Result<bool>> UpdateAsync(string? userRole, int bookCopyId, UpdateBookCopyDto updateBookCopyDto)
         {
-            if (userRole == null || (!userRole.Equals("Admin") && !userRole.Equals("Employee")))
-                return Result<bool>.FailedResult("Only admins and employees can update copy of books!", ResultCodes.Forbidden);
+            if (userRole == null)
+                return Result<bool>.FailedResult("User role not found!", ResultCodes.Forbidden);
 
             var resultBook = await _bookService.GetByIdAsync(updateBookCopyDto.BookId);
             if (resultBook.Data == null)
                 return Result<bool>.FailedResult("The specified book was not found. Please check the Book ID!", ResultCodes.NotFound);
 
             var validatorResult = _updateBookCopyDtoValidator.Validate(updateBookCopyDto);
-
             if (!validatorResult.IsValid)
                 return Result<bool>.FailedResult(validatorResult.ToString(), ResultCodes.BadRequest);
 
             var existingBookCopy = await _bookCopyRepository.GetByIdAsync(bookCopyId);
-
             if (existingBookCopy == null)
                 return Result<bool>.FailedResult("Copy not found!", ResultCodes.NotFound);
 

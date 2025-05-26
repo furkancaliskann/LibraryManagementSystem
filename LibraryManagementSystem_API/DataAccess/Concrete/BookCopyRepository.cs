@@ -9,7 +9,10 @@ namespace DataAccess.Concrete
         public BookCopyRepository(AppDbContext context) : base(context)
         {
         }
-
+        public override async Task<BookCopy?> GetByIdAsync(int id)
+        {
+            return await _context.BookCopies.Include(b => b.Shelf).AsNoTracking().FirstOrDefaultAsync(c => c.Id == id);
+        }
         public override async Task<IEnumerable<BookCopy>> GetAllAsync()
         {
             return await _context.BookCopies

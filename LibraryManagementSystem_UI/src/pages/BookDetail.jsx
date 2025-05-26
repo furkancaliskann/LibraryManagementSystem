@@ -1,12 +1,24 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import bookService from "../services/bookService";
+import { createReservation } from "../services/reservationService";
 
 const BookDetail = () => {
   const { id } = useParams();
   const [book, setBook] = useState(null);
   const [copies, setCopies] = useState([]);
   const [loading, setLoading] = useState(true);
+
+
+  const handleReservation = async (bookCopyId) => {
+  try {
+    await createReservation(bookCopyId);
+  } catch (error) {
+    console.warn("Rezervasyon isteğinde hata oluştu, görmezden geliniyor.", error);
+  } finally {
+    window.location.reload();
+  }
+};
 
   useEffect(() => {
     const fetchDetails = async () => {
@@ -56,14 +68,26 @@ const BookDetail = () => {
               </tr>
             </thead>
             <tbody>
-              {copies.map((copy) => (
-                <tr key={copy.id} className="hover:bg-gray-50">
-                  <td className="px-4 py-2 border">{copy.copyNumber}</td>
-                  <td className="px-4 py-2 border">{getCopyStatusLabel(copy.status)}</td>
-                  <td className="px-4 py-2 border">{copy.shelf?.location}</td>
-                </tr>
-              ))}
-            </tbody>
+  {copies.map((copy) => (
+    <tr key={copy.id} className="hover:bg-gray-50">
+      <td className="px-4 py-2 border">{copy.copyNumber}</td>
+      <td className="px-4 py-2 border">{getCopyStatusLabel(copy.status)}</td>
+      <td className="px-4 py-2 border">{copy.shelf?.location}</td>
+      <td className="px-4 py-2 border text-center">
+        {copy.status === 0 ? (
+          <button
+            onClick={() => handleReservation(copy.id)}
+            className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
+          >
+            Rezerve Et
+          </button>
+        ) : (
+          <span className="text-gray-400">Rezerve Edilemez</span>
+        )}
+      </td>
+    </tr>
+  ))}
+</tbody>
           </table>
         </div>
       )}

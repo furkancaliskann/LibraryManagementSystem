@@ -13,8 +13,8 @@ namespace Business.Validators.BookCopy
             RuleFor(x => x.Status)
                     .NotEmpty().WithMessage("Status cannot be empty!");
 
-            RuleFor(x => x.ShelfLocation)
-                    .NotEmpty().WithMessage("ShelfLocation cannot be empty!");
+            RuleFor(x => x.ShelfId)
+                    .NotEmpty().WithMessage("Shelf Id cannot be empty!");
         }
     }
 }
